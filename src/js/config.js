@@ -1,4 +1,4 @@
 export const config={
     proxy: 'https://cors-anywhere.herokuapp.com/',
-    key: '82fb4bc614bd626e918bcd9d20075401'
+    key: '98a72f986d6e3a3a667e349b31b6a6c6'
 }

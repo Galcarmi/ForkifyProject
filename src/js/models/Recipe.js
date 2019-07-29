@@ -80,7 +80,7 @@ export default class Recipe {
 
     //updating servings and ingredients count according to the new servings
     updateServings(type){
-        
+
         const newServings = type ==='dec'?this.servings-1:this.servings+1;
 
         this.ingredients.forEach(element=>{
