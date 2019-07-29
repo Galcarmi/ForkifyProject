@@ -10,6 +10,16 @@ export const clearResults = () =>{
     querySelectors.searchResultList.innerHTML='';
     querySelectors.pagination.innerHTML='';
 }
+
+export const highlightSelected = id=>{
+
+    const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+    resultsArr.forEach(element=>{
+        element.classList.remove('results__link--active');
+    })
+    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+}
+
 //limiting too long recipe titles
 const limitRecipeTitle = (title,limit=17) => {
     const newTitle = [];
@@ -82,3 +92,4 @@ export const renderResults=(recipes,page=1,resPerPage=10)=>{
     //render pagination buttons
     renderButtons(page,recipes.length,resPerPage);
 }
+

@@ -4,6 +4,7 @@ export const querySelectors={
     searchResultList:document.querySelector('.results__list'),
     searchRes:document.querySelector('.results'),
     pagination:document.querySelector('.results__pages'),
+    recipe:document.querySelector('.recipe'),
 }
 
 export const elementStrings = {
