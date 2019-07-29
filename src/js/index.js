@@ -5,9 +5,12 @@ import {querySelectors,renderLoader,clearLoader} from './views/base.js';
 import Search from './models/Search.js';
 import Recipe from './models/Recipe.js';
 import List from './models/List';
+import Likes from './models/Likes.js';
 import * as searchView from './views/searchView.js';
 import * as recipeView from './views/recipeView.js';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
+
 
 //global state of the app
 
@@ -82,7 +85,7 @@ const controlRecipe=async ()=>{
             state.recipe.calcTime();
 
             //render results
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
         }
         catch(error){
             console.log(error);
@@ -111,7 +114,45 @@ const controlList = () =>{
 
 }
 
-//choosing a recipt to render events
+//testings
+
+state.likes= new Likes();
+/////////likes controller///////
+const controlLike = () =>{
+
+    if(!state.likes){
+        state.likes = new Likes();
+    }
+
+    const currentId = state.recipe.id;
+    //user isnt liked the current recipe
+    if(!state.likes.isLiked(currentId)){
+        const newLike = state.likes.addLike(
+            currentId,
+            state.recipe.title,
+            state.recipe.publisher,
+            state.recipe.image_url
+        );
+        likesView.toggleLikeBtn(true);
+
+        likesView.renderLikes(newLike);
+    }
+    //user liked the current recipe
+    else{
+        state.likes.deleteLike(currentId);
+
+
+        likesView.toggleLikeBtn(false);
+
+        
+        likesView.deleteLike(currentId);
+    }
+    //changes the visibility of likes menu if needed
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+}
+
+
+//add events of loading new recipe to the page by clicking a recipe on search view or load an hash id of a specific recipe
 ['hashchange', 'load'].forEach(event=>window.addEventListener(event,controlRecipe));
 
 
@@ -156,6 +197,9 @@ querySelectors.recipe.addEventListener('click', event=>{
     }
     else if(event.target.matches('.recipe__btn--add , .recipe__btn--add *')){
         controlList();
+    }
+    else if(event.target.matches('.recipe__love, .recipe__love *')){
+        controlLike();
     }
 });
 
