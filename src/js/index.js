@@ -114,9 +114,7 @@ const controlList = () =>{
 
 }
 
-//testings
 
-state.likes= new Likes();
 /////////likes controller///////
 const controlLike = () =>{
 
@@ -154,6 +152,22 @@ const controlLike = () =>{
 
 //add events of loading new recipe to the page by clicking a recipe on search view or load an hash id of a specific recipe
 ['hashchange', 'load'].forEach(event=>window.addEventListener(event,controlRecipe));
+
+//load likes from data storage to ui and model
+window.addEventListener('load',()=>{
+    state.likes = new Likes();
+
+    //restore likes
+    state.likes.readStorage();
+
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    //render the existing likes
+
+    state.likes.likes.forEach(like=>{
+        likesView.renderLikes(like);
+    })
+})
 
 
 
